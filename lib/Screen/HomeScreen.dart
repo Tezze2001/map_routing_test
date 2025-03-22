@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart' as flatter_map;
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart' as osm;
 import 'package:map_routing_test/ViewModels/HomeViewModel.dart';
+import 'package:map_routing_test/Widgets/map_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({required this.viewModel});
@@ -32,16 +33,9 @@ class HomeScreen extends StatelessWidget {
                 constraints: BoxConstraints(maxHeight: 64, maxWidth: 64),
               ),
             ),
-            flatter_map.FlutterMap(
-              mapController: flatter_map.MapController(),
-              options: flatter_map.MapOptions(),
-              children: [
-                flatter_map.TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'dev.fleaflet.flutter_map.example',
-                  // Plenty of other options available!
-                ),
-              ],
+            MapWidget(
+              mapController: viewModel.flutterMap.mapController,
+              mapOptions: viewModel.flutterMap.mapOptions,
             ),
             Icon(Icons.directions_bike),
           ],
