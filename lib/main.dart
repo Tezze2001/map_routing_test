@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:map_routing_test/Domain/MapData.dart';
-import 'package:map_routing_test/Domain/flatter_map.dart';
-import 'package:map_routing_test/Domain/osm_map.dart';
-import 'package:map_routing_test/Screen/HomeScreen.dart';
-import 'ViewModels/HomeViewModel.dart';
+import 'package:map_routing_test/Domain/map_model.dart';
+import 'package:map_routing_test/Screen/home_screen.dart';
+import 'ViewModels/home_view_model.dart';
 
 void main() {
-  MapData mapData = MapData(startingPosition: null, endingPosition: null);
   final GoRouter router = GoRouter(
     initialLocation: '/',
     debugLogDiagnostics: true,
@@ -15,12 +12,7 @@ void main() {
       GoRoute(
         path: '/',
         builder: (context, state) {
-          return HomeScreen(
-            viewModel: HomeViewModel(
-              osmMap: OSMMap(mapData: mapData),
-              flutterMap: FLATTERMap(mapData: mapData),
-            ),
-          );
+          return HomeScreen(viewModel: HomeViewModel(mapModel: MapModel()));
         },
       ),
     ],

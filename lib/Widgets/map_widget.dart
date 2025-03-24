@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:map_routing_test/Domain/flatter_map.dart';
 import 'package:map_routing_test/service/location_service.dart';
+import 'package:map_routing_test/utils.dart';
 
 class MapWidget extends StatelessWidget {
-  const MapWidget({required this.mapController, required this.mapOptions});
+  MapWidget({required this.actualPosition, this.markers});
 
-  final MapController mapController;
-  final MapOptions mapOptions;
+  final MapController mapController = MapController();
+  Future<Position> actualPosition;
+  final List<LatLng>? markers;
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: LocationService.getCurrentLocation(),
+      future: actualPosition,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -25,32 +27,54 @@ class MapWidget extends StatelessWidget {
 
         Position pos = snapshot.data as Position;
 
+        List<Widget> childrenMap = [
+          TileLayer(
+            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            subdomains: ['a', 'b', 'c'],
+          ),
+          MarkerLayer(
+            markers: [
+              Marker(
+                point: LatLng(pos.latitude, pos.longitude),
+                width: 48,
+                height: 48,
+                child: Icon(
+                  Icons.navigation_rounded, // Choose an appropriate icon
+                  size: 48,
+                  color: Colors.blue,
+                ),
+              ),
+            ],
+          ),
+        ];
+
+        if (markers != null) {
+          List<Marker> markersList = [];
+          for (LatLng el in markers!) {
+            markersList.add(
+              Marker(
+                point: el,
+                width: 48,
+                height: 48,
+                child: Icon(
+                  Icons.location_on, // Choose an appropriate icon
+                  size: 48,
+                  color: Colors.red,
+                ),
+              ),
+            );
+          }
+
+          childrenMap.add(MarkerLayer(markers: markersList));
+        }
+
         return FlutterMap(
           mapController: mapController,
           options: MapOptions(
-            initialCenter: LatLng(pos.latitude, pos.longitude),
-            initialZoom: 15,
+            initialCenter: convertPositionToLatLng(pos),
+            initialZoom: 13,
           ),
-          children: [
-            TileLayer(
-              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-              userAgentPackageName: 'dev.test.example',
-            ),
-            MarkerLayer(
-              markers: [
-                Marker(
-                  point: LatLng(pos.latitude, pos.longitude),
-                  width: 48,
-                  height: 48,
-                  child: Icon(
-                    Icons.navigation_rounded, // Choose an appropriate icon
-                    size: 48,
-                    color: Colors.blue,
-                  ),
-                ),
-              ],
-            ),
-          ],
+          children: childrenMap,
         );
       },
     );

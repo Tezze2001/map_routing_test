@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
-import 'package:map_routing_test/Domain/MapData.dart';
+import 'package:map_routing_test/Domain/map_model.dart';
 
 class OSMMap {
   final MapData mapData;
