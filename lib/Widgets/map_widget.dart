@@ -6,11 +6,12 @@ import 'package:map_routing_test/service/location_service.dart';
 import 'package:map_routing_test/utils.dart';
 
 class MapWidget extends StatelessWidget {
-  MapWidget({required this.actualPosition, this.markers});
+  MapWidget({required this.actualPosition, this.markers, this.routePositions});
 
   final MapController mapController = MapController();
   Future<Position> actualPosition;
   final List<LatLng>? markers;
+  final List<LatLng>? routePositions;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +67,16 @@ class MapWidget extends StatelessWidget {
           }
 
           childrenMap.add(MarkerLayer(markers: markersList));
+        }
+
+        if (routePositions != null) {
+          childrenMap.add(
+            PolylineLayer(
+              polylines: [
+                Polyline(points: routePositions!, color: Colors.blue),
+              ],
+            ),
+          );
         }
 
         return FlutterMap(

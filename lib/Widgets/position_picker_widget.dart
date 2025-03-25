@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:map_routing_test/Widgets/map_widget.dart';
-import 'package:map_routing_test/service/location_service.dart';
 import 'package:map_routing_test/utils.dart';
 
 class PositionPickerWidget extends StatelessWidget {

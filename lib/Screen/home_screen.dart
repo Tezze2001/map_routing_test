@@ -13,18 +13,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Demo maps')),
-      body: ListenableBuilder(
-        listenable: viewModel.mapModel,
-        builder: (BuildContext context, Widget? child) {
-          return MapWidget(
-            actualPosition: viewModel.mapModel.actualPosition,
-            markers: viewModel.mapModel.positions,
-          );
-        },
-      ),
-      floatingActionButton: Stack(
-        children: [
+      appBar: AppBar(
+        title: const Text('Demo maps'),
+        actions: [
           IconButton(
             onPressed: () {
               showDialog(
@@ -49,13 +40,22 @@ class HomeScreen extends StatelessWidget {
             },
             icon: Icon(Icons.add),
           ),
-          IconButton(
-            onPressed: () {
-              debugPrint("iiiiii");
-            },
-            icon: Icon(Icons.directions),
-          ),
         ],
+      ),
+      body: ListenableBuilder(
+        listenable: viewModel.mapModel,
+        builder: (BuildContext context, Widget? child) {
+          return MapWidget(
+            actualPosition: viewModel.mapModel.actualPosition,
+            markers: viewModel.mapModel.positions,
+          );
+        },
+      ),
+      floatingActionButton: IconButton(
+        onPressed: () {
+          viewModel.updatePolylinePositions();
+        },
+        icon: Icon(Icons.directions),
       ),
     );
   }

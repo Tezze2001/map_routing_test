@@ -30,6 +30,7 @@ class MapModel extends ChangeNotifier {
 
   void confirmSelectedPosition() {
     addPosition(_tempSelectedPosition);
+    notifyListeners();
   }
 
   void removePosition(LatLng pos) {
