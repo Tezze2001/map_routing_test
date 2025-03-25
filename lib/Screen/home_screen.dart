@@ -23,28 +23,39 @@ class HomeScreen extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: IconButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return ListenableBuilder(
-                listenable: viewModel.mapModel,
-                builder: (context, child) {
-                  return PositionPickerWidget(
-                    onLocationSelected:
-                        () => viewModel.mapModel.confirmSelectedPosition(),
-                    onUpdateLocationSelected:
-                        (p0) => viewModel.mapModel.setTempSelectedPosition(p0),
-                    tempLocation: viewModel.mapModel.tempSelectedPosition,
-                    actualLocation: viewModel.mapModel.actualPosition,
+      floatingActionButton: Stack(
+        children: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return ListenableBuilder(
+                    listenable: viewModel.mapModel,
+                    builder: (context, child) {
+                      return PositionPickerWidget(
+                        onLocationSelected:
+                            () => viewModel.mapModel.confirmSelectedPosition(),
+                        onUpdateLocationSelected:
+                            (p0) =>
+                                viewModel.mapModel.setTempSelectedPosition(p0),
+                        tempLocation: viewModel.mapModel.tempSelectedPosition,
+                        actualLocation: viewModel.mapModel.actualPosition,
+                      );
+                    },
                   );
                 },
               );
             },
-          );
-        },
-        icon: Icon(Icons.add),
+            icon: Icon(Icons.add),
+          ),
+          IconButton(
+            onPressed: () {
+              debugPrint("iiiiii");
+            },
+            icon: Icon(Icons.directions),
+          ),
+        ],
       ),
     );
   }
