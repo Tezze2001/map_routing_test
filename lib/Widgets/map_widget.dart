@@ -73,7 +73,11 @@ class MapWidget extends StatelessWidget {
           childrenMap.add(
             PolylineLayer(
               polylines: [
-                Polyline(points: routePositions!, color: Colors.blue),
+                Polyline(
+                  points: routePositions!,
+                  color: Colors.blue,
+                  strokeWidth: 5,
+                ),
               ],
             ),
           );

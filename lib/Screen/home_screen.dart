@@ -22,14 +22,13 @@ class HomeScreen extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return ListenableBuilder(
-                    listenable: viewModel.mapModel,
+                    listenable: viewModel,
                     builder: (context, child) {
                       return PositionPickerWidget(
                         onLocationSelected:
-                            () => viewModel.mapModel.confirmSelectedPosition(),
+                            () => viewModel.confirmSelectedPosition(),
                         onUpdateLocationSelected:
-                            (p0) =>
-                                viewModel.mapModel.setTempSelectedPosition(p0),
+                            (p0) => viewModel.setTempSelectedPosition(p0),
                         tempLocation: viewModel.mapModel.tempSelectedPosition,
                         actualLocation: viewModel.mapModel.actualPosition,
                       );
@@ -43,11 +42,12 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: ListenableBuilder(
-        listenable: viewModel.mapModel,
+        listenable: viewModel,
         builder: (BuildContext context, Widget? child) {
           return MapWidget(
             actualPosition: viewModel.mapModel.actualPosition,
             markers: viewModel.mapModel.positions,
+            routePositions: viewModel.routeModel?.locations,
           );
         },
       ),

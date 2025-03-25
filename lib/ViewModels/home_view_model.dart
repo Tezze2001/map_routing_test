@@ -5,7 +5,7 @@ import 'package:map_routing_test/Domain/route_model.dart';
 import 'package:map_routing_test/Repository/route_repository.dart';
 import 'package:result_dart/result_dart.dart';
 
-class HomeViewModel {
+class HomeViewModel extends ChangeNotifier {
   final MapModel mapModel;
   RouteModel? routeModel;
   final RouteRepository routeRepository;
@@ -14,6 +14,22 @@ class HomeViewModel {
 
   void addPosition(LatLng pos) {
     mapModel.addPosition(pos);
+    notifyListeners();
+  }
+
+  void setTempSelectedPosition(LatLng pos) {
+    mapModel.setTempSelectedPosition(pos);
+    notifyListeners();
+  }
+
+  void confirmSelectedPosition() {
+    mapModel.confirmSelectedPosition();
+    notifyListeners();
+  }
+
+  void removePosition(LatLng pos) {
+    mapModel.removePosition(pos);
+    notifyListeners();
   }
 
   void updatePolylinePositions() async {
@@ -22,8 +38,9 @@ class HomeViewModel {
     );
 
     RouteModel resp = route.getOrThrow();
-    if (routeModel?.geometries != null) {
+    if (resp.geometries != null) {
       routeModel = resp;
+      notifyListeners();
     }
   }
 }

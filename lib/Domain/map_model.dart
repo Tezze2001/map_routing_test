@@ -6,7 +6,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:map_routing_test/service/location_service.dart';
 import 'package:map_routing_test/utils.dart';
 
-class MapModel extends ChangeNotifier {
+class MapModel {
   final List<LatLng> _positions = [];
 
   UnmodifiableListView<LatLng> get positions =>
@@ -20,21 +20,17 @@ class MapModel extends ChangeNotifier {
 
   void addPosition(LatLng pos) {
     _positions.add(pos);
-    notifyListeners();
   }
 
   void setTempSelectedPosition(LatLng pos) {
     _tempSelectedPosition = pos;
-    notifyListeners();
   }
 
   void confirmSelectedPosition() {
     addPosition(_tempSelectedPosition);
-    notifyListeners();
   }
 
   void removePosition(LatLng pos) {
     _positions.remove(pos);
-    notifyListeners();
   }
 }

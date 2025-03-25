@@ -17,7 +17,7 @@ class OsrmService {
     String input = points
         .map((point) => "${point.longitude},${point.latitude}")
         .join(";");
-    _additionalPath = "/$input";
+    _additionalPath = "/$input?annotations=true&steps=true";
     http.Response response = await http.get(uri);
     if (response.statusCode == 200) {
       OsrmResponse obj = OsrmResponse.fromJson(jsonDecode(response.body));
